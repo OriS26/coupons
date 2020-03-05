@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: SpringCrudRepository
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: ori26
+Implementation-Vendor-Id: com.avi.spring.crudrepository
+Build-Jdk: 1.8.0_211
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/SpringCrudRepository
+Created-By: Maven Integration for Eclipse
+
