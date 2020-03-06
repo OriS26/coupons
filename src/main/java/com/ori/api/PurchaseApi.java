@@ -126,7 +126,7 @@ public class PurchaseApi {
 		public List<Purchase> getAllCustomerPurchases(@RequestParam("maxPrice") float price, Long customerId, HttpServletRequest request) throws ApplicationException {
 			UserLoginData userLoginData = (UserLoginData) request.getAttribute("userLoginData");
 			customerId = userLoginData.getId();
-			
+			 
 			List<Purchase> purchases = purchaseController.getAllCustomerPurchasesLessThanPrice(customerId, price);
 			return purchases;
 		}
