@@ -61,7 +61,7 @@ public class UserApi {
 	
 	public Long createUserByAdmin(@RequestBody User user) throws ApplicationException {
 		
-		return  userController.createUserByAdmin(user);
+		return userController.createUserByAdmin(user);
 	}
 	
 	
