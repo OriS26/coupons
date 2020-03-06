@@ -64,7 +64,8 @@ public enum ErrorTypes  {
 	INVALID_AMOUNT (659, "invalid amount of pruchases", false), 
 	PASSWORD_MISSMATCH (660, "passwords are not matched, please try again", false), 
 	COUPON_OPERATION_UNAUTHORIZED (661, "you are attempting to delete other company's coupon!", false),
-	INVALID_EMAIL_OR_PASSWORD(662, "invalid email or password, please try again", false);
+	INVALID_EMAIL_OR_PASSWORD(662, "invalid email or password, please try again", false), 
+	UNAUTHROIZED(663, "Unauthroized Action!", false);
 	
 	
 	private int errorNumber;

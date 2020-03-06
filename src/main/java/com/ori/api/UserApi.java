@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ori.controller.UserController;
+import com.ori.data.UserLoginData;
 import com.ori.entities.Company;
 import com.ori.entities.Purchase;
 import com.ori.entities.SuccessfulLoginData;
 import com.ori.entities.User;
 import com.ori.entities.UserLoginDetails;
 import com.ori.entities.UserRegisterDetails;
+import com.ori.enums.ErrorTypes;
 import com.ori.enums.UserType;
 import com.ori.exceptions.ApplicationException;
 
@@ -105,9 +109,12 @@ public class UserApi {
 
 	//  URL : http://localhost:8080/users
 	@GetMapping
-	public List<User> getAllUsers() throws ApplicationException{
-
+	public List<User> getAllUsers(HttpServletRequest request) throws ApplicationException{
+		UserLoginData userLoginData = (UserLoginData) request.getAttribute("userLoginData");
 		
+		if(userLoginData.getUserType() != UserType.ADMIN) {
+			throw new ApplicationException(ErrorTypes.UNAUTHROIZED, "UNAUTHORIZED");
+		}
 		return this.userController.getAllUsers();
 	}
 
