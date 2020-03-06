@@ -63,7 +63,13 @@ public class UserApi {
 	
 	@PostMapping("/adminCreateUser")
 	
-	public Long createUserByAdmin(@RequestBody User user) throws ApplicationException {
+	public Long createUserByAdmin(@RequestBody User user, HttpServletRequest request) throws ApplicationException {
+		
+		UserLoginData userLoginData = (UserLoginData) request.getAttribute("userLoginData");
+		
+		if(userLoginData.getUserType() != UserType.ADMIN) {
+			throw new ApplicationException(ErrorTypes.UNAUTHROIZED, "UNAUTHORIZED");
+		}
 		
 		return userController.createUserByAdmin(user);
 	}
@@ -71,8 +77,13 @@ public class UserApi {
 	
 	@PutMapping("/adminEditUser")
 	
-	public void editUserByAdmin(@RequestBody User user) throws ApplicationException {
+	public void editUserByAdmin(@RequestBody User user, HttpServletRequest request) throws ApplicationException {
 		
+		UserLoginData userLoginData = (UserLoginData) request.getAttribute("userLoginData");
+		
+		if(userLoginData.getUserType() != UserType.ADMIN) {
+			throw new ApplicationException(ErrorTypes.UNAUTHROIZED, "UNAUTHORIZED");
+		}
 		
 		userController.createUserByAdmin(user);
 	}
@@ -91,8 +102,14 @@ public class UserApi {
 
 	// http://localhost:8080/users/12
 	@GetMapping("{id}")
-	public Optional<User> getUserDetails (@PathVariable("id") long id) throws ApplicationException {
+	public Optional<User> getUserDetails (@PathVariable("id") long id, HttpServletRequest request) throws ApplicationException {
 		System.out.println(id);
+		
+		UserLoginData userLoginData = (UserLoginData) request.getAttribute("userLoginData");
+		
+		if(userLoginData.getUserType() != UserType.ADMIN) {
+			throw new ApplicationException(ErrorTypes.UNAUTHROIZED, "UNAUTHORIZED");
+		}
 
 		
 		return this.userController.getUserDetails(id);
@@ -100,7 +117,13 @@ public class UserApi {
 
 	// http://localhost:8080/users/12
 	@DeleteMapping("{userId}")
-	public void deleteUser(@PathVariable("userId") long id) throws ApplicationException {
+	public void deleteUser(@PathVariable("userId") long id, HttpServletRequest request ) throws ApplicationException {
+		
+		UserLoginData userLoginData = (UserLoginData) request.getAttribute("userLoginData");
+		
+		if(userLoginData.getUserType() != UserType.ADMIN) {
+			throw new ApplicationException(ErrorTypes.UNAUTHROIZED, "UNAUTHORIZED");
+		}
 		
 		this.userController.deleteUser(id);
 		System.out.println(id + " has been deleted");
