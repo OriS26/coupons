@@ -55,7 +55,7 @@ public class CustomerController  {
 			customer.setAddress(registerDetails.getAddress());
 			customer.setAmountOfKids(registerDetails.getAmountOfKids());
 			customer.setName(registerDetails.getName());
-			customer.setMarried(registerDetails.isMarried());
+			customer.setMarried(registerDetails.getIsMarried());
 //			customer.getUser().setType(UserType.CUSTOMER);
 			
 			userController.validateCreateUser(customer.getUser(), repeatPassword);
@@ -101,10 +101,11 @@ public class CustomerController  {
 			user.setType(UserType.CUSTOMER);
 			
 			customer.setUser(user);
+			customer.setPhone(registerDetails.getPhone());
 			customer.setAddress(registerDetails.getAddress());
 			customer.setAmountOfKids(registerDetails.getAmountOfKids());
 			customer.setName(registerDetails.getName());
-			customer.setMarried(registerDetails.isMarried());
+			customer.setMarried(registerDetails.getIsMarried());
 
 			
 //			userController.validateCreateUser(customer.getUser(), repeatPassword);

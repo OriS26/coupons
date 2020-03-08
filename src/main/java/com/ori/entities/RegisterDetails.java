@@ -1,15 +1,17 @@
 package com.ori.entities;
 
+import com.ori.enums.CustomerStatus;
+
 public class RegisterDetails {
 	
 	private String name;
 	private String address;
 	private int	amountOfKids;	
 	private int	phone;	
-	private boolean isMarried;
+	private CustomerStatus isMarried;
 	private UserRegisterDetails userRegisterDetails; 
 	
-	public RegisterDetails(String name, String address, int amountOfKids, int phone, boolean isMarried,  UserRegisterDetails userRegisterDetails) {
+	public RegisterDetails(String name, String address, int amountOfKids, int phone, CustomerStatus isMarried,  UserRegisterDetails userRegisterDetails) {
 		super();
 		this.name = name;
 		this.address = address;
@@ -55,11 +57,19 @@ public class RegisterDetails {
 		this.phone = phone;
 	}
 
-	public boolean isMarried() {
+	
+
+	/**
+	 * @return the isMarried
+	 */
+	public CustomerStatus getIsMarried() {
 		return isMarried;
 	}
 
-	public void setMarried(boolean isMarried) {
+	/**
+	 * @param isMarried the isMarried to set
+	 */
+	public void setIsMarried(CustomerStatus isMarried) {
 		this.isMarried = isMarried;
 	}
 

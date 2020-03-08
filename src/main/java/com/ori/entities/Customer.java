@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ori.enums.CustomerStatus;
 
 @Entity
 @Table(name="CUSTOMERS")
@@ -35,7 +36,7 @@ public class Customer {
 	
 	
 	@Column(name="IS_MARRIED")
-	private boolean isMarried;
+	private CustomerStatus married;
 
 	@Column(name="AMOUNT_OF_KIDS")
 	private int amountOfKids;
@@ -109,28 +110,25 @@ public class Customer {
 	}
 
 
-	
 
 
 
 
-
-
-
-	
-
-
-
-
-	public boolean isMarried() {
-		return isMarried;
+	/**
+	 * @return the married
+	 */
+	public CustomerStatus getMarried() {
+		return married;
 	}
 
 
 
 
-	public void setMarried(boolean isMarried) {
-		this.isMarried = isMarried;
+	/**
+	 * @param married the married to set
+	 */
+	public void setMarried(CustomerStatus married) {
+		this.married = married;
 	}
 
 
