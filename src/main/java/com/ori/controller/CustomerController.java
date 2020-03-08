@@ -89,7 +89,7 @@ public class CustomerController  {
 
 	public void updateCustomer(RegisterDetails registerDetails, long customerId) throws ApplicationException {
 
-
+ 
 
 			String repeatPassword = registerDetails.getUserRegisterDetails().getRepeatPassword();
 			Customer customer = new Customer();

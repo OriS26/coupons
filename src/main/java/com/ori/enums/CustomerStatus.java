@@ -5,8 +5,9 @@ public enum CustomerStatus {
 	SINGLE, MARRIED, DIVORCED, WIDOW, OTHER;
 	
 	
-	private CustomerStatus() {
+	private CustomerStatus() { 
 		
 	}
+	
 
 }

@@ -13,7 +13,7 @@ public class UserRegisterDetails {
 		this.password = password;
 		this.repeatPassword = repeatPassword;
 	}
-
+ 
 
 	public UserRegisterDetails() {
 		
