@@ -59,7 +59,7 @@ public class RegisterDetails {
 
 	
 
-	/**
+	/** 
 	 * @return the isMarried
 	 */
 	public CustomerStatus getIsMarried() {

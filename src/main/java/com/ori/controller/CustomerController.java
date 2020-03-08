@@ -101,7 +101,7 @@ public class CustomerController  {
 			user.setType(UserType.CUSTOMER);
 			
 			customer.setUser(user);
-			customer.setPhone(registerDetails.getPhone());
+			customer.setPhone(registerDetails.getPhone()); 
 			customer.setAddress(registerDetails.getAddress());
 			customer.setAmountOfKids(registerDetails.getAmountOfKids());
 			customer.setName(registerDetails.getName());
