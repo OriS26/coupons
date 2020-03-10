@@ -35,30 +35,15 @@ public class CustomerController  {
 
 
 
-	public void createCustomer(RegisterDetails registerDetails) throws ApplicationException {
+	public void createCustomer(Customer customer) throws ApplicationException {
 		
-			System.out.println(registerDetails);
+			System.out.println(customer);
+			
+			customer.getUser().setType(UserType.CUSTOMER);
 		
-			String repeatPassword = registerDetails.getUserRegisterDetails().getRepeatPassword();
-			Customer customer = new Customer();
-			User user = new User();
+
 			
-			user.setEmail(registerDetails.getUserRegisterDetails().getEmail());
-			user.setPassword(registerDetails.getUserRegisterDetails().getPassword());
-			user.setType(UserType.CUSTOMER);
-			
-			
-			
-//			customer.getUser().setEmail(registerDetails.getUserRegisterDetails().getEmail());
-//			customer.getUser().setPassword(registerDetails.getUserRegisterDetails().getPassword());
-			customer.setUser(user);
-			customer.setAddress(registerDetails.getAddress());
-			customer.setAmountOfKids(registerDetails.getAmountOfKids());
-			customer.setName(registerDetails.getName());
-			customer.setMarried(registerDetails.getIsMarried());
-//			customer.getUser().setType(UserType.CUSTOMER);
-			
-			userController.validateCreateUser(customer.getUser(), repeatPassword);
+			userController.validateCreateUser(customer.getUser());
 			validateCreateCustomer(customer);
 		
 		
@@ -87,28 +72,14 @@ public class CustomerController  {
 
 
 
-	public void updateCustomer(RegisterDetails registerDetails, long customerId) throws ApplicationException {
+	public void updateCustomer(Customer customer) throws ApplicationException {
 
  
 
-			String repeatPassword = registerDetails.getUserRegisterDetails().getRepeatPassword();
-			Customer customer = new Customer();
-			User user = new User();
-			
-			user.setId(customerId);
-			user.setEmail(registerDetails.getUserRegisterDetails().getEmail());
-			user.setPassword(registerDetails.getUserRegisterDetails().getPassword());
-			user.setType(UserType.CUSTOMER);
-			
-			customer.setUser(user);
-			customer.setPhone(registerDetails.getPhone()); 
-			customer.setAddress(registerDetails.getAddress());
-			customer.setAmountOfKids(registerDetails.getAmountOfKids());
-			customer.setName(registerDetails.getName());
-			customer.setMarried(registerDetails.getIsMarried());
+
 
 			
-//			userController.validateCreateUser(customer.getUser(), repeatPassword);
+//			userController.validateCreateUser(customer.getUser());
 //			validateCreateCustomer(customer);
 
 			this.customerDao.save(customer);

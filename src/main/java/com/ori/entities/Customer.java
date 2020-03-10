@@ -24,7 +24,7 @@ public class Customer {
 	@GeneratedValue
 	private long customerId;
 	
-	@JsonIgnore
+	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@MapsId
 	private User user;
@@ -49,6 +49,9 @@ public class Customer {
 
 	@Column(name="NAME", nullable=false)
 	private String name;
+	
+	
+	
 
 
 	public Customer() {

@@ -105,9 +105,9 @@ public class UserController {
 	
 	public Long createUserByAdmin(User user) throws ApplicationException {
 		// TODO Auto-generated method stub
-		String repeatPassword = user.getPassword();
+//		String repeatPassword = user.getPassword();
 		
-		validateCreateUser(user, repeatPassword);
+		validateCreateUser(user);
 		
 		try {
 
@@ -124,7 +124,7 @@ public class UserController {
 
 	public long createUser(User user, String repeatPassword) throws ApplicationException {
 
-		validateCreateUser(user, repeatPassword);
+		validateCreateUser(user);
 
 
 		try {
@@ -138,7 +138,7 @@ public class UserController {
 		}
 	}
 
-	  void validateCreateUser(User user, String repeatPassword) throws ApplicationException {
+	  void validateCreateUser(User user) throws ApplicationException {
 
 
 		if (this.userDao.existsByEmail(user.getEmail())) {
@@ -152,9 +152,9 @@ public class UserController {
 			throw new ApplicationException(ErrorTypes.INVALID_EMAIL_ADDRESS, "invalid email addresss");
 		}
 		
-		if (!user.getPassword().equals(repeatPassword)) {
-			throw new ApplicationException(ErrorTypes.PASSWORD_MISSMATCH, "passwords mismatch");
-		}
+//		if (!user.getPassword().equals(repeatPassword)) {
+//			throw new ApplicationException(ErrorTypes.PASSWORD_MISSMATCH, "passwords mismatch");
+//		}
 
 		if (user.getPassword().length()<6) {
 			throw new ApplicationException(ErrorTypes.PASSWORD_TOO_SHORT ,"Password is too short");

@@ -36,22 +36,22 @@ public class CustomerApi {
 	
 //  URL : http://localhost:8080/customers
 		@PostMapping
-		public void addCustomer(@RequestBody RegisterDetails registerDetails) throws ApplicationException {
+		public void addCustomer(@RequestBody Customer customer) throws ApplicationException {
 			
-			this.customerController.createCustomer(registerDetails);
-			System.out.println(registerDetails);
+			System.out.println(customer);
+			this.customerController.createCustomer(customer);
 			
 		}
 		
 		//  URL : http://localhost:8080/customers
 		@PutMapping
-		public void updateCustomer(@RequestBody RegisterDetails registerDetails, HttpServletRequest request) throws ApplicationException {
+		public void updateCustomer(@RequestBody Customer customer, HttpServletRequest request) throws ApplicationException {
 			
 			UserLoginData userLoginData = (UserLoginData) request.getAttribute("userLoginData");
-			long customerId = userLoginData.getId();
+			customer.getUser().setId(userLoginData.getId());
 			
-			this.customerController.updateCustomer(registerDetails, customerId);
-			System.out.println(registerDetails);
+			this.customerController.updateCustomer(customer);
+			System.out.println(customer);
 		}
 		
 		// http://localhost:8080/customers/12345
@@ -92,13 +92,13 @@ public class CustomerApi {
 				}
 				
 				@PutMapping("/myDetailsEdit")
-				public void editMyCustomerDetails(@RequestBody RegisterDetails registerDetails, HttpServletRequest request) throws ApplicationException {
+				public void editMyCustomerDetails(@RequestBody Customer customer, HttpServletRequest request) throws ApplicationException {
 					
 					UserLoginData userLoginData = (UserLoginData) request.getAttribute("userLoginData");
-					long customerId = userLoginData.getId();
+					customer.getUser().setId(userLoginData.getId());
 					
 					
-					 customerController.createCustomer(registerDetails);
+					 customerController.updateCustomer(customer);
 					 
 					
 				}
