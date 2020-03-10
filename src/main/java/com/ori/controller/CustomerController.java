@@ -79,8 +79,8 @@ public class CustomerController  {
 
 
 			
-//			userController.validateCreateUser(customer.getUser());
-//			validateCreateCustomer(customer);
+			userController.validateCreateUser(customer.getUser());
+			validateCreateCustomer(customer);
 
 			this.customerDao.save(customer);
 			

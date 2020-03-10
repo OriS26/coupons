@@ -109,6 +109,11 @@ public class UserController {
 		
 		validateCreateUser(user);
 		
+		if (this.userDao.existsByEmail(user.getEmail())) {
+
+			throw new ApplicationException(ErrorTypes.EMAIL_IS_TAKEN, "Email is already in user, please choose another");
+		}
+		
 		try {
 
 			this.userDao.save(user);
@@ -122,8 +127,13 @@ public class UserController {
 
 
 
-	public long createUser(User user, String repeatPassword) throws ApplicationException {
+	public long createUser(User user) throws ApplicationException {
 
+		if (this.userDao.existsByEmail(user.getEmail())) {
+
+			throw new ApplicationException(ErrorTypes.EMAIL_IS_TAKEN, "Email is already in user, please choose another");
+		}
+		
 		validateCreateUser(user);
 
 
@@ -141,10 +151,7 @@ public class UserController {
 	  void validateCreateUser(User user) throws ApplicationException {
 
 
-		if (this.userDao.existsByEmail(user.getEmail())) {
-
-			throw new ApplicationException(ErrorTypes.EMAIL_IS_TAKEN, "Email is already in user, please choose another");
-		}
+		
 
 
 		boolean isEmailValid = EmailValidator(user.getEmail());
@@ -193,7 +200,7 @@ public class UserController {
 	}
 
 
-
+	
 
 	private boolean EmailValidator(String email) throws ApplicationException {
 		String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
