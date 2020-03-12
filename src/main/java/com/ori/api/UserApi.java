@@ -51,14 +51,13 @@ public class UserApi {
 
 	//  URL : http://localhost:8080/users
 	@PostMapping
-	public Long createUser(@RequestBody UserRegisterDetails userRegisterDetails) throws ApplicationException {
-		String repeatedPassword = userRegisterDetails.getRepeatPassword();
-		
-		User user = new User();
+	public Long createUser(@RequestBody User user) throws ApplicationException {
 		
 		
 		
-		 return this.userController.createUser(user, repeatedPassword);
+		
+		
+		 return this.userController.createUser(user);
 	}
 	
 	@PostMapping("/adminCreateUser")
@@ -90,13 +89,11 @@ public class UserApi {
 
 	//  URL : http://localhost:8080/users
 	@PutMapping
-	public void updateUser(@RequestBody UserRegisterDetails userRegisterDetails) throws ApplicationException {
+	public void updateUser(@RequestBody User user) throws ApplicationException {
 		
-		String repeatedPassword = userRegisterDetails.getRepeatPassword();
 		
-		User user = new User();
 		
-		this.userController.createUser(user, repeatedPassword);
+		this.userController.createUser(user);
 		System.out.println(user);
 	}
 
