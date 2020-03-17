@@ -42,7 +42,9 @@ public class UserController {
 
 	public SuccessfulLoginData login(UserLoginDetails userLoginDetails ) throws ApplicationException {
 		User user;
+		userLoginDetails.setPassword(String.valueOf(userLoginDetails.getPassword().hashCode()));
 		try {
+			System.out.println(userLoginDetails.getPassword().hashCode());
 			user = this.userDao.findByEmailAndPassword(userLoginDetails.getEmail(), userLoginDetails.getPassword());
 		} catch (Exception e) {
 			throw new ApplicationException(ErrorTypes.INVALID_EMAIL_OR_PASSWORD, "invalid Email or password");
@@ -106,7 +108,8 @@ public class UserController {
 	public Long createUserByAdmin(User user) throws ApplicationException {
 		// TODO Auto-generated method stub
 //		String repeatPassword = user.getPassword();
-		
+		user.setPassword(String.valueOf(user.getPassword().hashCode()));
+
 		validateCreateUser(user);
 		
 		if (this.userDao.existsByEmail(user.getEmail())) {
@@ -135,6 +138,8 @@ public class UserController {
 		}
 		
 		validateCreateUser(user);
+		
+		user.setPassword(String.valueOf(user.getPassword().hashCode()));
 
 
 		try {
