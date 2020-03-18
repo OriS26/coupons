@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ori.controller.CacheController;
 import com.ori.controller.UserController;
 import com.ori.data.UserLoginData;
 import com.ori.entities.Company;
@@ -28,6 +29,8 @@ import com.ori.entities.UserRegisterDetails;
 import com.ori.enums.ErrorTypes;
 import com.ori.enums.UserType;
 import com.ori.exceptions.ApplicationException;
+
+import javafx.scene.chart.PieChart.Data;
 
 
 
@@ -50,6 +53,25 @@ public class UserApi {
 	// -------------------------
 
 	//  URL : http://localhost:8080/users
+	
+	
+	@GetMapping("/isAdmin")
+	public boolean isAdmin(HttpServletRequest request) throws ApplicationException {
+		
+		UserLoginData userLoginData = (UserLoginData) request.getAttribute("userLoginData");
+		
+         if(userLoginData.getUserType() != UserType.ADMIN) {
+			
+			throw new ApplicationException(ErrorTypes.UNAUTHROIZED, "UNAUTHORIZED");
+		}
+         
+         return true;
+		
+	}
+	
+	
+	
+	
 	@PostMapping
 	public Long createUser(@RequestBody User user) throws ApplicationException {
 		
@@ -67,6 +89,7 @@ public class UserApi {
 		UserLoginData userLoginData = (UserLoginData) request.getAttribute("userLoginData");
 		
 		if(userLoginData.getUserType() != UserType.ADMIN) {
+			
 			throw new ApplicationException(ErrorTypes.UNAUTHROIZED, "UNAUTHORIZED");
 		}
 		
