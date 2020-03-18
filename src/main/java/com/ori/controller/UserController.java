@@ -106,8 +106,7 @@ public class UserController {
 	}
 	
 	public Long createUserByAdmin(User user) throws ApplicationException {
-		// TODO Auto-generated method stub
-//		String repeatPassword = user.getPassword();
+
 		user.setPassword(String.valueOf(user.getPassword().hashCode()));
 
 		validateCreateUser(user);
@@ -139,6 +138,8 @@ public class UserController {
 		
 		validateCreateUser(user);
 		
+		
+		
 		user.setPassword(String.valueOf(user.getPassword().hashCode()));
 
 
@@ -151,6 +152,44 @@ public class UserController {
 
 			throw new ApplicationException(ErrorTypes.FAIL_TO_CREATE_USER, "failed to create user");
 		}
+	}
+	
+	
+	public long updateUser(User user) throws ApplicationException {
+		
+		if (this.userDao.existsByEmail(user.getEmail())) {
+
+			throw new ApplicationException(ErrorTypes.EMAIL_IS_TAKEN, "Email is already in user, please choose another");
+		}
+		
+		
+		
+		validateCreateUser(user);
+		
+		User userDb = userDao.findById(user);
+		
+		if (!user.getPassword().equals(userDb.getPassword())) {
+			
+			throw new ApplicationException(ErrorTypes.INVALID_EMAIL_OR_PASSWORD, "wrong password!");
+			
+		}
+		
+		user.setPassword(String.valueOf(user.getNewPassword().hashCode()));
+		
+		user.setNewPassword(null);
+		
+
+		try {
+
+			this.userDao.save(user);
+			long id = user.getId();
+			return id;
+		} catch (Exception e) {
+
+			throw new ApplicationException(ErrorTypes.FAIL_TO_CREATE_USER, "failed to create user");
+		}
+		
+		
 	}
 
 	  void validateCreateUser(User user) throws ApplicationException {
@@ -226,7 +265,7 @@ public class UserController {
 		}
 	}
 
-	public Optional<User> getUserDetails(long id) throws ApplicationException {
+	public User getUserDetails(long id) throws ApplicationException {
 		try {
 
 			if (!userDao.existsById(id)) {
@@ -240,7 +279,7 @@ public class UserController {
 		}
 		
 		try {
-			return userDao.findById(id);
+			return userDao.findById(id).get();
 			
 		} catch (Exception e) {
 			throw new ApplicationException(ErrorTypes.FAIL_TO_GET_USERS, "failed to get users");
@@ -321,6 +360,52 @@ public class UserController {
 	 */
 	public void setUserDbdao(IUserDao userDao) {
 		this.userDao = userDao;
+	}
+
+	public void updateMyCompanyUser(User user) throws ApplicationException {
+		
+		validateCreateUser(user);
+		
+		//hashing current password for comparison 
+		user.setPassword(String.valueOf(user.getPassword().hashCode()));
+		
+		//getting  current user details from dataBase for password comparison
+		User userDb = userDao.findById(user.getId()).get();
+		
+		//passwords comparison
+		if (!user.getPassword().equals(userDb.getPassword())) {
+			
+			throw new ApplicationException(ErrorTypes.INVALID_EMAIL_OR_PASSWORD, "wrong password!");
+			
+		}
+		
+		// checking if customer wants to change his password.
+				// if the new password is empty password will not be updated   
+		if (!user.getNewPassword().equals("")) {
+					
+			//changing new password to password
+			user.setPassword(user.getNewPassword());
+			
+			//validating new password
+			validateCreateUser(user);
+			
+			//hashing password
+			user.setPassword(String.valueOf(user.getPassword().hashCode()));
+		}	
+		
+		
+		try {
+			
+			user.setNewPassword(null);
+			
+			this.userDao.save(user);
+		
+		} catch (Exception e) {
+			throw new ApplicationException(ErrorTypes.FAIL_TO_UPDATE_USER, "user updated has failed");
+		}
+		
+		
+		
 	}
 
 	

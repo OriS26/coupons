@@ -49,6 +49,8 @@ import com.ori.enums.UserType;
 		@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 		private Customer customer;
 		
+		private String newPassword;
+		
 		
 		public User() {
 			super();
@@ -131,6 +133,14 @@ import com.ori.enums.UserType;
 		public String toString() {
 			return "User [id=" + id + ", password=" + password + ", type=" + type + ", email=" + email + ", company="
 					+ company + ", customer=" + customer + "]";
+		}
+
+		public String getNewPassword() {
+			return newPassword;
+		}
+
+		public void setNewPassword(String newPassword) {
+			this.newPassword = newPassword;
 		}
 
 		

@@ -73,13 +73,41 @@ public class CustomerController  {
 
 
 	public void updateCustomer(Customer customer) throws ApplicationException {
+		
+		userController.validateCreateUser(customer.getUser());
+		
+		//hashing current password for comparison 
+		customer.getUser().setPassword(String.valueOf(customer.getUser().getPassword().hashCode()));
 
- 
-
-
-
+		//getting  current customer details from dataBase for password comparison
+		Customer customerDb = customerDao.findById(customer.getUser().getId()).get();
+		
+		
+		//passwords comparison
+		if (!customer.getUser().getPassword().equals(customerDb.getUser().getPassword())) {
 			
+			throw new ApplicationException(ErrorTypes.INVALID_EMAIL_OR_PASSWORD, "wrong password!");
+			
+		}
+		
+		
+		// checking if customer wants to change his password.
+		// if the new password is empty password will not be updated   
+		if (!customer.getUser().getNewPassword().equals("")) {
+			
+			//changing new password to password
+			customer.getUser().setPassword(customer.getUser().getNewPassword());
+			
+			//validating new password
 			userController.validateCreateUser(customer.getUser());
+			
+			//hashing password
+			customer.getUser().setPassword(String.valueOf(customer.getUser().getPassword().hashCode()));
+		}
+		
+		//empty the new password section
+		customer.getUser().setNewPassword(null);
+
 			validateCreateCustomer(customer);
 
 			this.customerDao.save(customer);
@@ -185,6 +213,9 @@ public class CustomerController  {
 	}
 
 	public Customer getMyCustomerDetails(long customerId) throws ApplicationException {
+		
+		
+		
 		try {
 			return this.customerDao.findById(customerId).get();
 		} catch (Exception e) {

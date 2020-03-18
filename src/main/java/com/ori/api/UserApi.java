@@ -70,16 +70,34 @@ public class UserApi {
 	}
 	
 	
+	@PutMapping("/updateMyCompanyUser")
+	public void updateMyCompanyUser(@RequestBody User user, HttpServletRequest request) throws ApplicationException {
+		
+		UserLoginData userLoginData = (UserLoginData) request.getAttribute("userLoginData");
+		
+		user.setId(userLoginData.getId());
+		
+		this.userController.updateMyCompanyUser(user);
+	}
 	
 	
 	@PostMapping
 	public Long createUser(@RequestBody User user) throws ApplicationException {
 		
+		if(user.getNewPassword().equals(null)) {
+			
+			return this.userController.createUser(user);
+		}
+		
+		else {
+			
+			return this.userController.updateUser(user);
+			 
+			
+		}
 		
 		
 		
-		
-		 return this.userController.createUser(user);
 	}
 	
 	@PostMapping("/adminCreateUser")
@@ -122,7 +140,7 @@ public class UserApi {
 
 	// http://localhost:8080/users/12
 	@GetMapping("{id}")
-	public Optional<User> getUserDetails (@PathVariable("id") long id, HttpServletRequest request) throws ApplicationException {
+	public User getUserDetails (@PathVariable("id") long id, HttpServletRequest request) throws ApplicationException {
 		System.out.println(id);
 		
 		UserLoginData userLoginData = (UserLoginData) request.getAttribute("userLoginData");
@@ -160,6 +178,18 @@ public class UserApi {
 		}
 		return this.userController.getAllUsers();
 	}
+	
+	@GetMapping("/getMyDetails")
+	public User getMyUserDetails (HttpServletRequest request) throws ApplicationException {
+		
+		UserLoginData userLoginData = (UserLoginData) request.getAttribute("userLoginData");
+		
+		long userId = userLoginData.getId();
+		
+		return this.userController.getUserDetails(userId);
+		
+		
+	}
 
 	@GetMapping("/ByEmail")
 	public List<User> getUserByEmail (@RequestParam("email") String email) throws ApplicationException {
@@ -172,6 +202,7 @@ public class UserApi {
 		
 		return this.userController.getUserByType(type);
 	}
+	
 
 
 }
