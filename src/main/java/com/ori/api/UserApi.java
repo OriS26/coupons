@@ -179,6 +179,7 @@ public class UserApi {
 		return this.userController.getAllUsers();
 	}
 	
+	
 	@GetMapping("/getMyDetails")
 	public User getMyUserDetails (HttpServletRequest request) throws ApplicationException {
 		

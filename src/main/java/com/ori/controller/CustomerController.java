@@ -175,11 +175,17 @@ public class CustomerController  {
 			}
 
 		} catch (Exception e) {
-			throw new ApplicationException(ErrorTypes.INVALID_CUSTOMER, "please e nter a valid id");
+			throw new ApplicationException(ErrorTypes.INVALID_CUSTOMER, "please enter a valid id");
 		}
 
 		try {
-			return this.customerDao.findById(id).get();
+			
+			Customer customer = this.customerDao.findById(id).get();
+			
+			customer.getUser().setPassword(null);
+			
+			return customer; 
+			
 		} catch (Exception e) {
 			throw new ApplicationException(ErrorTypes.FAIL_TO_DELETE_CUSTOMER, "Failed to delete customer");
 		}
