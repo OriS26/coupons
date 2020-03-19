@@ -69,6 +69,20 @@ public class UserApi {
 		
 	}
 	
+	@GetMapping("/isCompany")
+	public boolean isCompany(HttpServletRequest request) throws ApplicationException {
+		
+		UserLoginData userLoginData = (UserLoginData) request.getAttribute("userLoginData");
+		
+         if(userLoginData.getUserType() != UserType.COMPANY) {
+			
+			throw new ApplicationException(ErrorTypes.UNAUTHROIZED, "UNAUTHORIZED");
+		}
+         
+         return true;
+		
+	}
+	
 	
 	@PutMapping("/updateMyCompanyUser")
 	public void updateMyCompanyUser(@RequestBody User user, HttpServletRequest request) throws ApplicationException {

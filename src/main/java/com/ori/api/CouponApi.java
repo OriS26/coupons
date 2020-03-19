@@ -183,8 +183,13 @@ public class CouponApi {
 		@GetMapping("/myCompanyCoupons")
 		public List<Coupon> getCompanyCoupons(HttpServletRequest request) throws ApplicationException {
 			
-			System.out.println("going to controller____________________________________________________________________________________________");
 			UserLoginData userLoginData = (UserLoginData) request.getAttribute("userLoginData");
+			
+			if(userLoginData.getUserType() != UserType.COMPANY) {
+				
+				throw new ApplicationException(ErrorTypes.UNAUTHROIZED, "UNAUTHORIZED");
+			}
+			
 			Long companyId = userLoginData.getCompanyId();
 			
 			System.out.println(companyId);
