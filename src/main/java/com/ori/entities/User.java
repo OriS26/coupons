@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.Transient;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ori.enums.UserType;
 
@@ -49,6 +51,7 @@ import com.ori.enums.UserType;
 		@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 		private Customer customer;
 		
+		@Transient
 		private String newPassword;
 		
 		
