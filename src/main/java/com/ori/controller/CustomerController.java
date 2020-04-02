@@ -36,25 +36,25 @@ public class CustomerController  {
 
 
 	public void createCustomer(Customer customer) throws ApplicationException {
-		
-			System.out.println(customer);
-			
-			customer.getUser().setType(UserType.CUSTOMER);
-		
 
-			
-			userController.validateCreateUser(customer.getUser());
-			validateCreateCustomer(customer);
-		
-		
+		System.out.println(customer);
+
+		customer.getUser().setType(UserType.CUSTOMER);
+
+
+
+		userController.validateCreateUser(customer.getUser());
+		validateCreateCustomer(customer);
+
+
 
 		try {
 			this.customerDao.save(customer);
 		} catch (Exception e) {
 			throw new ApplicationException(ErrorTypes.CUSTOMER_CREATION_FAILED, "failed to create a customer");
 		}
-		
-		
+
+
 	}
 
 	private void validateCreateCustomer(Customer customer) throws ApplicationException  {
@@ -73,45 +73,45 @@ public class CustomerController  {
 
 
 	public void updateCustomer(Customer customer) throws ApplicationException {
-		
+
 		userController.validateCreateUser(customer.getUser());
-		
+
 		//hashing current password for comparison 
 		customer.getUser().setPassword(String.valueOf(customer.getUser().getPassword().hashCode()));
 
 		//getting  current customer details from dataBase for password comparison
 		Customer customerDb = customerDao.findById(customer.getUser().getId()).get();
-		
-		
+
+
 		//passwords comparison
 		if (!customer.getUser().getPassword().equals(customerDb.getUser().getPassword())) {
-			
+
 			throw new ApplicationException(ErrorTypes.INVALID_EMAIL_OR_PASSWORD, "wrong password!");
-			
+
 		}
-		
-		
+
+
 		// checking if customer wants to change his password.
 		// if the new password is empty password will not be updated   
 		if (!customer.getUser().getNewPassword().equals("")) {
-			
+
 			//changing new password to password
 			customer.getUser().setPassword(customer.getUser().getNewPassword());
-			
+
 			//validating new password
 			userController.validateCreateUser(customer.getUser());
-			
+
 			//hashing password
 			customer.getUser().setPassword(String.valueOf(customer.getUser().getPassword().hashCode()));
 		}
-		
+
 		//empty the new password section
 		customer.getUser().setNewPassword(null);
 
-			validateCreateCustomer(customer);
+		validateCreateCustomer(customer);
 
-			this.customerDao.save(customer);
-			
+		this.customerDao.save(customer);
+
 
 
 	}
@@ -179,13 +179,13 @@ public class CustomerController  {
 		}
 
 		try {
-			
+
 			Customer customer = this.customerDao.findById(id).get();
-			
+
 			customer.getUser().setPassword(null);
-			
+
 			return customer; 
-			
+
 		} catch (Exception e) {
 			throw new ApplicationException(ErrorTypes.FAIL_TO_DELETE_CUSTOMER, "Failed to delete customer");
 		}
@@ -203,6 +203,23 @@ public class CustomerController  {
 		}
 	}
 
+	public Customer getMyCustomerDetails(long customerId) throws ApplicationException {
+
+
+
+		try {
+			Customer customer = this.customerDao.findById(customerId).get();
+
+			customer.getUser().setPassword(null);
+
+			return customer; 
+		} catch (Exception e) {
+			throw new ApplicationException(ErrorTypes.GENERAL_ERROR, "failed to get customer details");
+		}
+
+	}
+
+
 
 	/**
 	 * @return the customerDbdao
@@ -218,17 +235,6 @@ public class CustomerController  {
 		this.customerDao = customerDbdao;
 	}
 
-	public Customer getMyCustomerDetails(long customerId) throws ApplicationException {
-		
-		
-		
-		try {
-			return this.customerDao.findById(customerId).get();
-		} catch (Exception e) {
-			throw new ApplicationException(ErrorTypes.GENERAL_ERROR, "failed to get customer details");
-		}
-		
-	}
 
 
 
