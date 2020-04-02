@@ -46,9 +46,12 @@ public class CustomerController  {
 		userController.validateCreateUser(customer.getUser());
 		validateCreateCustomer(customer);
 
+		customer.getUser().setPassword(String.valueOf(customer.getUser().getPassword().hashCode()));
 
 
 		try {
+			
+			
 			this.customerDao.save(customer);
 		} catch (Exception e) {
 			throw new ApplicationException(ErrorTypes.CUSTOMER_CREATION_FAILED, "failed to create a customer");
